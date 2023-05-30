@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: iso-8859-1 -*
+
 import bcC
 
 class MetodoPoda():
@@ -140,6 +141,6 @@ if __name__ == '__main__':
     if True:
         precio=bcC.Precio('bajo')
         metros=bcC.Metros('<100')
-        banos=bcC.Banos('tiene')
+        banos=bcC.Banos('no tiene')
         mp=MetodoPoda([precio,metros,banos])
         mp.execute()
