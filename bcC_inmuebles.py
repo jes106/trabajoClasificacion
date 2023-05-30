@@ -95,8 +95,6 @@ def caracteristicas():
 
 
 def creaCaracteristica(tp):
-    '''Crea una instancia de una caracteristica en el caso de que la tupla 
-    coincida con la base de conocimiento'''
     if tp[0] == 'Precio':
         ob = Precio(tp[1])
         return ob
