@@ -137,10 +137,10 @@ def creaCaracteristica(tp):
         return ob
     elif tp[0] == 'Estancia':
         ob = Estancia(tp[1])
-	return ob
+        return ob
     elif tp[0] == 'Hotel':
         ob = Hotel(tp[1])
-	return ob
+        return ob
     elif tp[0] == 'Vuelta':
         ob = Vuelta(tp[1])
         return ob
@@ -162,11 +162,12 @@ class Ilegal(Aspectos):
         # self.nombre='Ilegal'
         equipaje = Equipaje('mucho')
         familia = Familia('Si')
-	familiaNo = Familia('No')
+        familiaNo = Familia('No')
         estancia = Estancia('>10 días')
-	hotel = Hotel('No')
-	vuelta = Vuelta('No')
-        self.debePresentar = [equipaje, familia, familiaNo, estancia, hotel, vuelta]
+        estancia2 = Estancia('<10 días')
+        hotel = Hotel('No')
+        vuelta = Vuelta('No')
+        self.debePresentar = [equipaje, familia, familiaNo, estancia, estancia2, hotel, vuelta]
         Aspectos.__init__(self, nombre=u'Ilegal')
 
 class Legal(Aspectos):
@@ -174,20 +175,17 @@ class Legal(Aspectos):
         # self.nombre='Legal'
         equipaje = Equipaje('poco')
         familia = Familia('Si')
-	familiaNo = Familia('No')
+        familiaNo = Familia('No')
         estancia = Estancia('<10 días')
-	hotel = Hotel('Si')
-	vuelta = Vuelta('Si')
+        hotel = Hotel('Si')
+        vuelta = Vuelta('Si')
         self.debePresentar = [equipaje, familia, familiaNo, estancia, hotel, vuelta]
-        Aspectos.__init__(self, nombre=u'Ilegal')
+        Aspectos.__init__(self, nombre=u'Legal')
 
 
 def hipotesis():
     '''Devuelve la lista de zonas'''
-    pis = Piso()
-    atc = Atico()
-    gar = Garaje()
-    loc = Local_Comercial()
-    cha = Chalet()
-    lHp = [pis, atc, gar, loc, cha]
+    ilg = Ilegal()
+    leg = Legal()
+    lHp = [ilg, leg]
     return lHp

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: iso-8859-1 -*-
 
 class Atributos():
@@ -15,36 +14,51 @@ class Atributos():
 '''Definición de los atributos del sistema'''
 
 
-class Prec(Atributos):
+class Equip(Atributos):
     def __init__(self, defecto=None, booleano=False):
-        nombre = 'Precio'
-        atrib = 'Precio'
-        valores = ['bajo', 'medio', 'alto']
+        nombre = 'Equipaje'
+        atrib = 'Equipaje'
+        valores = ['mucho', 'poco']
         Atributos.__init__(self, nombre, atrib, defecto, booleano, valores)
 
 
-class Met(Atributos):
+class Fam(Atributos):
     def __init__(self, defecto=None, booleano=False):
-        nombre = 'Metros'
-        atrib = 'Metros'
-        valores = ['<100', '>100', '>500']
+        nombre = 'Familia'
+        atrib = 'Familia'
+        valores = ['Si', 'No']
         Atributos.__init__(self, nombre, atrib, defecto, booleano, valores)
 
 
-class Ban(Atributos):
+class Est(Atributos):
     def __init__(self, defecto=None, booleano=False):
-        nombre = 'Banos'
-        atrib = 'Banos'
-        valores = ['tiene', 'no tiene']
+        nombre = 'Estancia'
+        atrib = 'Estancia'
+        valores = ['<10 días', '> 10 días']
         Atributos.__init__(self, nombre, atrib, defecto, booleano, valores)
 
+class Hot(Atributos):
+    def __init__(self, defecto=None, booleano=False):
+        nombre = 'Hotel'
+        atrib = 'Hotel'
+        valores = ['Si', 'No']
+        Atributos.__init__(self, nombre, atrib, defecto, booleano, valores)
+
+class Vue(Atributos):
+    def __init__(self, defecto=None, booleano=False):
+        nombre = 'Vuelta'
+        atrib = 'Vuelta'
+        valores = ['Si', 'No']
+        Atributos.__init__(self, nombre, atrib, defecto, booleano, valores)
 
 def listaAtributos():
     '''Devuelve la lista de observables de la base del conocimiento'''
     atributos = []
-    atributos.append(Prec())
-    atributos.append(Met())
-    atributos.append(Ban())
+    atributos.append(Equip())
+    atributos.append(Fam())
+    atributos.append(Est())
+    atributos.append(Hot())
+    atributos.append(Vue())
 
     return atributos
 
@@ -61,50 +75,74 @@ class Caracteristica():
 '''Definición de características precio, metros y baños'''
 
 
-class Precio(Caracteristica):
+class Equipaje(Caracteristica):
     def __init__(self, valor=None):
-        nombre = 'precio'
-        valoresPermitidos = ['bajo', 'medio', 'alto']
+        nombre = 'equipaje'
+        valoresPermitidos = ['mucho', 'poco']
         Caracteristica.__init__(self, nombre, valoresPermitidos, valor)
         self.valor = valor
 
 
-class Metros(Caracteristica):
+class Familia(Caracteristica):
     def __init__(self, valor=None):
-        nombre = 'metros'
-        valoresPermitidos = ['<100', '>100', '>500']
+        nombre = 'familia'
+        valoresPermitidos = ['Si', 'No']
         Caracteristica.__init__(self, nombre, valoresPermitidos, valor)
         self.valor = valor
 
 
-class Banos(Caracteristica):
+class Estancia(Caracteristica):
     def __init__(self, valor=None):
-        nombre = 'banos'
-        valoresPermitidos = ['tiene', 'no tiene']
+        nombre = 'estancia'
+        valoresPermitidos = ['<10 días', '>10 días']
         Caracteristica.__init__(self, nombre, valoresPermitidos, valor)
         self.valor = valor
+
+class Hotel(Caracteristica):
+    def __init__(self, valor=None):
+        nombre = 'estancia'
+        valoresPermitidos = ['Si', 'No']
+        Caracteristica.__init__(self, nombre, valoresPermitidos, valor)
+        self.valor = valor
+
+
+class Vuelta(Caracteristica):
+    def __init__(self, valor=None):
+        nombre = 'vuelta'
+        valoresPermitidos = ['Si', 'No']
+        Caracteristica.__init__(self, nombre, valoresPermitidos, valor)
+        self.valor = valor
+
+
 
 
 def caracteristicas():
     '''Devuelve la lista de caracteristicas de la base de conocimiento'''
     obs = []
-    obs.append(Precio())
-    obs.append(Metros())
-    obs.append(Banos())
+    obs.append(Equipaje())
+    obs.append(Familia())
+    obs.append(Estancia())
+    obs.append(Hotel())
+    obs.append(Vuelta())
+
     return obs
 
 
 def creaCaracteristica(tp):
-    '''Crea una instancia de una caracteristica en el caso de que la tupla 
-    coincida con la base de conocimiento'''
-    if tp[0] == 'Precio':
-        ob = Precio(tp[1])
+    if tp[0] == 'Equipaje':
+        ob = Equipaje(tp[1])
         return ob
-    elif tp[0] == 'Metros':
-        ob = Metros(tp[1])
+    elif tp[0] == 'Familia':
+        ob = Familia(tp[1])
         return ob
-    elif tp[0] == 'Banos':
-        ob = Banos(tp[1])
+    elif tp[0] == 'Estancia':
+        ob = Estancia(tp[1])
+        return ob
+    elif tp[0] == 'Hotel':
+        ob = Hotel(tp[1])
+        return ob
+    elif tp[0] == 'Vuelta':
+        ob = Vuelta(tp[1])
         return ob
     return None
 
@@ -119,62 +157,35 @@ class Aspectos():
 '''Definición de las zonas del sistema'''
 
 
-class Piso(Aspectos):
+class Ilegal(Aspectos):
     def __init__(self):
-        # self.nombre='Piso'
-        precio = Precio('alto')
-        pocosMetros = Metros('>100')
-        siBanos = Banos('tiene')
-        self.debePresentar = [precio, pocosMetros, siBanos]
-        Aspectos.__init__(self, nombre=u'Piso')
+        # self.nombre='Ilegal'
+        equipaje = Equipaje('mucho')
+        familia = Familia('Si')
+        familiaNo = Familia('No')
+        estancia = Estancia('>10 días')
+        estancia2 = Estancia('<10 días')
+        hotel = Hotel('No')
+        vuelta = Vuelta('No')
+        self.debePresentar = [equipaje, familia, familiaNo, estancia, estancia2, hotel, vuelta]
+        Aspectos.__init__(self, nombre=u'Ilegal')
 
-
-class Atico(Aspectos):
+class Legal(Aspectos):
     def __init__(self):
-        # self.nombre='Atico'
-        precio = Precio('bajo')
-        pocosMetros = Metros('<100')
-        siBanos = Banos('tiene')
-        self.debePresentar = [precio, pocosMetros, siBanos]
-        Aspectos.__init__(self, nombre=u'Ático')
-
-
-class Garaje(Aspectos):
-    def __init__(self):
-        # self.nombre='Garaje'
-        precio = Precio('bajo')
-        pocosMetros = Metros('<100')
-        noBanos = Banos('no tiene')
-        self.debePresentar = [precio, pocosMetros, noBanos]
-        Aspectos.__init__(self, nombre=u'Garaje')
-
-
-class Local_Comercial(Aspectos):
-    def __init__(self):
-        # self.nombre='Local_Comercial'
-        precio =Precio('medio')
-        muchosMetros = Metros('>500')
-        siBanos = Banos('tiene')
-        noBanos = Banos('no tiene')
-        self.debePresentar = [precio, muchosMetros, siBanos, noBanos]
-        Aspectos.__init__(self, nombre=u'Local Comercial')
-
-
-class Chalet(Aspectos):
-    def __init__(self):
-        precio = Precio('alto')
-        metros = Metros('>500')
-        siBanos = Banos('tiene')
-        self.debePresentar = [precio, metros, siBanos]
-        Aspectos.__init__(self, nombre=u'Chalet')
+        # self.nombre='Legal'
+        equipaje = Equipaje('poco')
+        familia = Familia('Si')
+        familiaNo = Familia('No')
+        estancia = Estancia('<10 días')
+        hotel = Hotel('Si')
+        vuelta = Vuelta('Si')
+        self.debePresentar = [equipaje, familia, familiaNo, estancia, hotel, vuelta]
+        Aspectos.__init__(self, nombre=u'Legal')
 
 
 def hipotesis():
     '''Devuelve la lista de zonas'''
-    pis = Piso()
-    atc = Atico()
-    gar = Garaje()
-    loc = Local_Comercial()
-    cha = Chalet()
-    lHp = [pis, atc, gar, loc, cha]
+    ilg = Ilegal()
+    leg = Legal()
+    lHp = [ilg, leg]
     return lHp
